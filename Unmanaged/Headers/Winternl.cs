@@ -632,6 +632,85 @@ namespace MonkeyWorks.Unmanaged.Headers
             ProcessProtectionInformation = 61
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _OBJECT_TYPES_INFORMATION_EX
+        {
+            public uint NumberOfObjectTypes;
+            public _OBJECT_TYPE_INFORMATION_EX[] ObjectTypeInformation;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _OBJECT_TYPE_INFORMATION_EX
+        {
+            public Ntddk._UNICODE_STRING Name;
+            public uint ObjectCount;
+            public uint HandleCount;
+            public uint Reserved1;
+            public uint Reserved2;
+            public uint Reserved3;
+            public uint Reserved4;
+            public uint PeakObjectCount;
+            public uint PeakHandleCount;
+            public uint HighWaterNumberOfObjects;
+            public uint HighWaterNumberOfHandles;
+            public uint TypeInfoSize;
+            public uint TypeInfoResident;
+            public uint TypeInfoAllocationBytes;
+            public ulong TypeInfoAllocation;
+            public ushort TypeInfoBlock;
+            public ushort TypeInfoIndex;
+            public uint Reserved5;
+            public uint UsageCount;
+            public uint Reserved6;
+            public uint Reserved7;
+            public uint Reserved8;
+            public uint Reserved9;
+            public uint Reserved10;
+            public uint Reserved11;
+            public uint Reserved12;
+            public uint Reserved13;
+            public uint Reserved14;
+            public uint Reserved15;
+            public uint Reserved16;
+            public uint Reserved17;
+            public uint Reserved18;
+            public uint Reserved19;
+            public uint Reserved20;
+            public Winnt._SECURITY_DESCRIPTOR SecurityDescriptor;
+            public uint Flags;
+            public uint Token;
+            public uint Reserved21;
+            public uint TypeInfoExtendedReserved;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct OBJECT_TYPE_INFORMATION
+        {
+            public Ntddk._UNICODE_STRING TypeName;
+            public uint TotalNumberOfHandles;
+            public uint TotalNumberOfObjects;
+            public uint HighWaterNumberOfHandles;
+            public uint HighWaterNumberOfObjects;
+            public uint InvalidAttributes;
+            public _GENERIC_MAPPING GenericMapping;
+            public uint ValidAccessMask;
+            public byte SecurityRequired;
+            public byte MaintainHandleCount;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+            public byte[] Unknown;
+            public uint PoolType;
+            public uint DefaultPagedPoolCharge;
+            public uint DefaultNonPagedPoolCharge;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _GENERIC_MAPPING
+        {
+            public uint GenericRead;
+            public uint GenericWrite;
+            public uint GenericExecute;
+            public uint GenericAll;
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct _PUBLIC_OBJECT_TYPE_INFORMATION
@@ -993,7 +1072,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             SystemEnclaveLaunchControlInformation = 0xCB
         }
 
-        [StructLayout(LayoutKind.Explicit, Size = 0x2000)]
+        [StructLayout(LayoutKind.Explicit, Size = 0x3000)]
         public struct _TEB
         {
             [FieldOffset(0x0000)]

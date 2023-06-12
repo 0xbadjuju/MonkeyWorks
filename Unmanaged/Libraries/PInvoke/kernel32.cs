@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -24,22 +25,38 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public const uint MEM_PRIVATE = 0x00020000;
 
         ////////////////////////////////////////////////////////////////////////////////
+
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AssignProcessToJobObject(IntPtr hJob, IntPtr hProcess);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle(IntPtr hProcess);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle(SafeFileHandle hProcess);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ConnectNamedPipe(
             IntPtr hNamedPipe,
             MinWinBase._OVERLAPPED lpOverlapped
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ConnectNamedPipe(
             IntPtr hNamedPipe,
             IntPtr lpOverlapped
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern void CopyMemory(
+            IntPtr dest,
+            IntPtr src,
+            [MarshalAs(UnmanagedType.U4)] uint count
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -57,28 +74,45 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr CreateFileMappingW(
             IntPtr hFile,
             Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes,
-            [MarshalAs(UnmanagedType.U4)]
-            Winnt.MEMORY_PROTECTION_CONSTANTS flProtect,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwMaximumSizeHigh,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwMaximumSizeLow,
-            [MarshalAs(UnmanagedType.LPWStr)]
-            string lpFileName
+            [MarshalAs(UnmanagedType.U4)] Winnt.MEMORY_PROTECTION_CONSTANTS flProtect,
+            [MarshalAs(UnmanagedType.U4)] uint dwMaximumSizeHigh,
+            [MarshalAs(UnmanagedType.U4)] uint dwMaximumSizeLow,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFileName
+        );
+
+        [Obsolete]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateFileW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+            Winnt.ACCESS_MASK dwDesiredAccess,
+            [MarshalAs(UnmanagedType.U4)] FileShare dwShareMode,
+            IntPtr lpSecurityAttributes,
+            [MarshalAs(UnmanagedType.U4)] uint dwCreationDisposition,
+            [MarshalAs(UnmanagedType.U4)] uint dwFlagsAndAttributes,
+            IntPtr hTemplateFile
         );
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateFileW(
-            [MarshalAs(UnmanagedType.LPWStr)]
-            string lpFileName,
-            Winnt.ACCESS_MASK dwDesiredAccess,
-            System.IO.FileShare dwShareMode,
-            IntPtr lpSecurityAttributes,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwCreationDisposition,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwFlagsAndAttributes,
-            IntPtr hTemplateFile
+             [MarshalAs(UnmanagedType.LPWStr)] string filename,
+             [MarshalAs(UnmanagedType.U4)] FileAccess access,
+             [MarshalAs(UnmanagedType.U4)] FileShare share,
+             IntPtr securityAttributes,
+             [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
+             [MarshalAs(UnmanagedType.U4)] FileAttributes flagsAndAttributes,
+             IntPtr templateFile
+         );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern IntPtr CreateJobObjectA(
+            IntPtr lpJobAttributes,
+            [MarshalAs(UnmanagedType.LPStr)] string lpName
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateJobObjectW(
+            IntPtr lpJobAttributes,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpName
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -171,6 +205,32 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            [MarshalAs(UnmanagedType.U4)] uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            [MarshalAs(UnmanagedType.I4)] int nInBufferSize,
+            IntPtr lpOutBuffer,
+            [MarshalAs(UnmanagedType.I4)] int nOutBufferSize,
+            [MarshalAs(UnmanagedType.I4)] ref int lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            [MarshalAs(UnmanagedType.U4)] uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            [MarshalAs(UnmanagedType.U4)] uint nInBufferSize,
+            IntPtr lpOutBuffer,
+            [MarshalAs(UnmanagedType.U4)] uint nOutBufferSize,
+            [MarshalAs(UnmanagedType.U4)] out uint lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DisconnectNamedPipe(IntPtr hNamedPipe);
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -202,6 +262,13 @@ namespace MonkeyWorks.Unmanaged.Libraries
             ref ulong lpFileSize
         );
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool GetFirmwareType(
+            out Winnt.FIRMWARE_TYPE firmwareType
+        );
+
+
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
 
@@ -228,7 +295,11 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
-        public static extern uint GetShortPathName(string lpszLongPath, StringBuilder lpszShortPath, uint cchBuffer);
+        public static extern uint GetShortPathName(
+            string lpszLongPath, 
+            StringBuilder lpszShortPath,
+            [MarshalAs(UnmanagedType.U4)] uint cchBuffer
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern void GetSystemInfo(out Winbase._SYSTEM_INFO lpSystemInfo);
@@ -405,8 +476,27 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern int ResumeThread(IntPtr hThread);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern uint SearchPath(string lpPath, string lpFileName, string lpExtension, uint nBufferLength, StringBuilder lpBuffer, ref IntPtr lpFilePart);
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPathA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpPath,
+            [MarshalAs(UnmanagedType.LPStr)] string lpFileName,
+            [MarshalAs(UnmanagedType.LPStr)] string lpExtension,
+            [MarshalAs(UnmanagedType.U4)] uint nBufferLength, 
+            StringBuilder lpBuffer, 
+            ref IntPtr lpFilePart
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPathW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpPath,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpExtension,
+            [MarshalAs(UnmanagedType.U4)] uint nBufferLength,
+            StringBuilder lpBuffer,
+            ref IntPtr lpFilePart
+        );
 
         public delegate bool HandlerRoutine(Wincon.CtrlType CtrlType);
 
@@ -419,22 +509,37 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetFilePointerEx(
-            IntPtr hThread,
-            [MarshalAs(UnmanagedType.U8)]
-            ulong liDistanceToMove,
-            [MarshalAs(UnmanagedType.U8)]
-            ref ulong lpNewFilePointer,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwMoveMethod
+        public static extern bool SetInformationJobObject(
+            IntPtr hJob, 
+            Winnt.JOBOBJECTINFOCLASS infoType, 
+            IntPtr lpJobObjectInfo,
+            [MarshalAs(UnmanagedType.U4)] uint cbJobObjectInfoLength
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetFilePointerEx(
+            IntPtr hThread,
+            [MarshalAs(UnmanagedType.U8)] ulong liDistanceToMove,
+            [MarshalAs(UnmanagedType.U8)] ref ulong lpNewFilePointer,
+            [MarshalAs(UnmanagedType.U4)] uint dwMoveMethod
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileTime(
             IntPtr hFile,
             ref System.Runtime.InteropServices.ComTypes.FILETIME lpCreationTime,
             ref System.Runtime.InteropServices.ComTypes.FILETIME lpLastAccessTime,
             ref System.Runtime.InteropServices.ComTypes.FILETIME lpLastWriteTime
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetHandleInformation(
+            IntPtr hObject,
+            [MarshalAs(UnmanagedType.U4)] Winbase.HANDLE_INFORMATION dwMask,
+            [MarshalAs(UnmanagedType.U4)] Winbase.HANDLE_INFORMATION dwFlags
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -453,9 +558,19 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [return: MarshalAs(UnmanagedType.I4)]
         public static extern int SuspendThread(IntPtr hThread);
 
+        [DllImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool TerminateJobObject(
+            IntPtr hJob,
+            [MarshalAs(UnmanagedType.U4)] uint uExitCode
+        );
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool TerminateProcess(IntPtr hProcess, uint uExitCode);
+        public static extern bool TerminateProcess(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U4)] uint uExitCode
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

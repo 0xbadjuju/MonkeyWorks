@@ -174,6 +174,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr NtCurrentTeb();
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtDuplicateObject(
             IntPtr SourceProcessHandle,

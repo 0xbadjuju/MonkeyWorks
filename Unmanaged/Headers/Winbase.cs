@@ -61,6 +61,13 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [Flags]
+        public enum HANDLE_INFORMATION : uint
+        {
+            HANDLE_FLAG_INHERIT = 0x00000001,
+            HANDLE_FLAG_PROTECT_FROM_CLOSE = 0x00000002
+        }
+
+        [Flags]
         public enum INFO_PROCESSOR_ARCHITECTURE : ushort
         {
             PROCESSOR_ARCHITECTURE_INTEL = 0,

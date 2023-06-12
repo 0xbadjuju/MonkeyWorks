@@ -394,6 +394,16 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool SetHandleInformation(
+            IntPtr hObject,
+            [MarshalAs(UnmanagedType.U4)]
+            Winbase.HANDLE_INFORMATION dwMask,
+            [MarshalAs(UnmanagedType.U4)]
+            Winbase.HANDLE_INFORMATION dwFlags
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool SetThreadContext(IntPtr hThread, IntPtr lpContext);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]

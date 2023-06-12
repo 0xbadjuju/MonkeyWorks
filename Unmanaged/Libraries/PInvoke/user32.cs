@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
+using System.Text;
 using MonkeyWorks.Unmanaged.Headers;
 using MonkeyWorks.Unmanaged.Libraries;
 
@@ -9,13 +9,51 @@ namespace MonkeyWorks.Unmanaged.Libraries
     public sealed class user32
     {
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AddClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseClipboard();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseDesktop(IntPtr hDesktop);
+
+        [Obsolete]
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr CreateDesktop(
+            string lpszDesktop, 
+            IntPtr lpszDevice, 
+            IntPtr pDevmode,
+            int dwFlags, 
+            uint dwDesiredAccess,
+            IntPtr lpsa
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern IntPtr CreateDesktopA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpszDesktop,
+            IntPtr lpszDevice,
+            IntPtr pDevmode,
+            [MarshalAs(UnmanagedType.U4)] uint dwFlags,
+            [MarshalAs(UnmanagedType.U4)] Winnt.ACCESS_MASK dwDesiredAccess,
+            IntPtr lpsa
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateDesktopW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop,
+            IntPtr lpszDevice,
+            IntPtr pDevmode,
+            [MarshalAs(UnmanagedType.U4)] uint dwFlags,
+            [MarshalAs(UnmanagedType.U4)] Winnt.ACCESS_MASK dwDesiredAccess,
+            IntPtr lpsa
+        );
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr CreateWindowEx(
@@ -36,6 +74,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr DefWindowProcW(IntPtr hWnd, uint Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DestroyWindow(IntPtr hwnd);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -48,6 +87,25 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint EnumClipboardFormats(uint format);
+
+        public delegate bool EnumDesktopProc(string lpszDesktop, IntPtr lParam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumDesktops(
+            IntPtr hwinsta, 
+            EnumDesktopProc lpEnumFunc, 
+            IntPtr lParam
+        );
+
+        public delegate bool EnumThreadWndProc(IntPtr hWnd, IntPtr lParam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr EnumDesktopWindows(
+            IntPtr hDesktop, 
+            EnumThreadWndProc lpfn, 
+            IntPtr lParam
+         );
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
@@ -98,12 +156,11 @@ namespace MonkeyWorks.Unmanaged.Libraries
        );
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint GetClipboardSequenceNumber();
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetUserObjectSecurity(IntPtr hObj, ref Winnt.SECURITY_INFORMATION pSIRequested, Winnt.SECURITY_DESCRIPTOR_CONTROL pSID, uint nLength, ref uint lpnLengthNeeded);
-
-        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetUserObjectSecurity(IntPtr hObj, ref Winnt.SECURITY_INFORMATION pSIRequested, IntPtr pSID, uint nLength, ref uint lpnLengthNeeded);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -112,18 +169,91 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetProcessWindowStation();
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern IntPtr GetPropA(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.LPStr)] string lpString
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr GetPropW(
             IntPtr hWnd,
-            [MarshalAs(UnmanagedType.LPWStr)]
-            string lpString
+            [MarshalAs(UnmanagedType.LPWStr)] string lpString
+        );
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetThreadDesktop(
+            [MarshalAs(UnmanagedType.U4)] uint dwThreadId
+        );
+
+        [Obsolete]
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectInformation(
+            IntPtr hObj, 
+            int nIndex, 
+            StringBuilder pvInfo, 
+            uint nLength, 
+            out uint plnLengthNeeded
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectInformationA(
+            IntPtr hObj,
+            [MarshalAs(UnmanagedType.I4)] int nIndex,
+            StringBuilder pvInfo,
+            [MarshalAs(UnmanagedType.U4)] uint nLength,
+            [MarshalAs(UnmanagedType.U4)] out uint plnLengthNeeded
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectInformationW(
+            IntPtr hObj,
+            [MarshalAs(UnmanagedType.I4)] int nIndex,
+            StringBuilder pvInfo,
+            [MarshalAs(UnmanagedType.U4)] uint nLength,
+            [MarshalAs(UnmanagedType.U4)] out uint plnLengthNeeded
+        );
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectSecurity(
+            IntPtr hObj, 
+            ref Winnt.SECURITY_INFORMATION pSIRequested, 
+            Winnt.SECURITY_DESCRIPTOR_CONTROL pSID,
+            [MarshalAs(UnmanagedType.U4)] uint nLength,
+            [MarshalAs(UnmanagedType.U4)] ref uint lpnLengthNeeded
+        );
+
+        [Obsolete]
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int GetWindowLong(
+            IntPtr hWnd,
+            int nIndex
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int GetWindowLongA(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.I4)] int nIndex
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int GetWindowLongW(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.I4)] int nIndex
         );
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint GetWindowText(
             IntPtr hWnd, 
-            System.Text.StringBuilder lpString, 
+            StringBuilder lpString, 
             uint nMaxCount
         );
 
@@ -140,9 +270,11 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool OpenClipboard(IntPtr hWndNewOwner);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -162,6 +294,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr OpenInputDesktop(
+            [MarshalAs(UnmanagedType.I4)] int dwFlags,
+            [MarshalAs(UnmanagedType.Bool)] bool fInherit,
+            [MarshalAs(UnmanagedType.U4)] uint dwDesiredAccess
+        );
+
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr OpenWindowStationA(
             [MarshalAs(UnmanagedType.LPStr)] string lpszWinSta,
             [MarshalAs(UnmanagedType.Bool)] bool fInherit,
@@ -175,15 +315,29 @@ namespace MonkeyWorks.Unmanaged.Libraries
             Winuser.WindowStationSecurity dwDesiredAccess
         );
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PostMessage(
+            HandleRef hWnd,
+            [MarshalAs(UnmanagedType.U4)] uint Msg, 
+            IntPtr wParam, 
+            IntPtr lParam
+        );
+
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool PostMessage(IntPtr hWnd, uint Msg, uint wParam, uint lParam);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PostMessage(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.U4)] uint Msg,
+            [MarshalAs(UnmanagedType.U4)] uint wParam,
+            [MarshalAs(UnmanagedType.U4)] uint lParam
+         );
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PostMessageW(
             IntPtr hWnd,
-            [MarshalAs(UnmanagedType.U4)]
-            uint Msg,
+            [MarshalAs(UnmanagedType.U4)] uint Msg,
             IntPtr wParam,
             IntPtr lParam
         );
@@ -194,7 +348,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr SendMessage(
             IntPtr hWnd,
             [MarshalAs(UnmanagedType.U4)]
@@ -202,6 +356,15 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr wParam, 
             [MarshalAs(UnmanagedType.LPWStr)] 
             string lParam
+        );
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr SendMessage(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.U4)]
+            uint Msg, 
+            IntPtr wParam, 
+            IntPtr lParam
         );
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -221,18 +384,49 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetPropW(
             IntPtr hWnd,
-            [MarshalAs(UnmanagedType.LPWStr)]
-            string lpString,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpString,
             IntPtr hData
         );
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetUserObjectSecurity(IntPtr hObj, Winnt.SECURITY_INFORMATION pSIRequested, Winnt._SECURITY_DESCRIPTOR pSID);
 
+        [Obsolete]
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int SetWindowLong(
+            IntPtr hWnd, 
+            int nIndex, 
+            int dwNewLong
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int SetWindowLongA(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.I4)] int nIndex,
+            [MarshalAs(UnmanagedType.I4)] int dwNewLong
+        );
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int SetWindowLongW(
+            IntPtr hWnd,
+            [MarshalAs(UnmanagedType.I4)] int nIndex,
+            [MarshalAs(UnmanagedType.I4)] int dwNewLong
+        );
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SwitchDesktop(IntPtr hDesktop);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TranslateMessage(ref Winuser.tagMSG lpMsg);
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UnregisterClass(string lpClassName, IntPtr hInstance);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -241,6 +435,13 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         public delegate bool WindowCallBack(IntPtr hwnd, IntPtr lParam);
         public delegate bool PropEnumPropCallBack(IntPtr hwnd, IntPtr lpszString, IntPtr hData);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint WaitForInputIdle(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U4)] uint dwMilliseconds
+        );
 
         //https://modexp.wordpress.com/2018/08/23/process-injection-propagate/
         [StructLayout(LayoutKind.Sequential)]

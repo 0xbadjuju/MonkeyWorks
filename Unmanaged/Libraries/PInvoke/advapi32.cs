@@ -170,14 +170,27 @@ namespace MonkeyWorks.Unmanaged.Libraries
             MaximumEx = Maximum + 1000,
         }
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool CredEnumerateW(string Filter, int Flags, out int Count, out IntPtr Credentials);
+        [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CredEnumerateW(
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string Filter,
+            [MarshalAs(UnmanagedType.U4)] uint Flags,
+            [MarshalAs(UnmanagedType.U4)] out uint Count, 
+            out IntPtr Credentials
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CredFree(IntPtr Buffer);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool CredReadW(string target, CRED_TYPE type, int reservedFlag, out IntPtr credentialPtr);
+        public static extern bool CredReadW(
+            [MarshalAs(UnmanagedType.LPWStr)] string target,
+            [MarshalAs(UnmanagedType.U4)] CRED_TYPE type,
+            [MarshalAs(UnmanagedType.U4)] int reservedFlag, 
+            out IntPtr credentialPtr
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool CredWriteW(ref WinCred._CREDENTIAL userCredential, uint flags);
@@ -229,15 +242,28 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, IntPtr TokenInformation, uint TokenInformationLength, out uint ReturnLength);
+        public static extern IntPtr GetSidSubAuthority(
+            IntPtr psid, 
+            [MarshalAs(UnmanagedType.U4)] uint nSubAuthority
+        );
+
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool GetTokenInformation(
             IntPtr TokenHandle, 
             Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, 
-            ref Winnt._TOKEN_STATISTICS TokenInformation, 
-            uint TokenInformationLength, 
-            out uint ReturnLength
+            IntPtr TokenInformation,
+            [MarshalAs(UnmanagedType.U4)] uint TokenInformationLength,
+            [MarshalAs(UnmanagedType.U4)] out uint ReturnLength
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool GetTokenInformation(
+            IntPtr TokenHandle, 
+            Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, 
+            ref Winnt._TOKEN_STATISTICS TokenInformation,
+            [MarshalAs(UnmanagedType.U4)] uint TokenInformationLength,
+            [MarshalAs(UnmanagedType.U4)] out uint ReturnLength
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -253,7 +279,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         //http://pinvoke.net/default.aspx/advapi32.LogonUser
         [DllImport("advapi32.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool LogonUser(
+        public static extern bool LogonUser(
             [MarshalAs(UnmanagedType.LPStr)] string pszUserName,
             [MarshalAs(UnmanagedType.LPStr)] string pszDomain,
             [MarshalAs(UnmanagedType.LPStr)] string pszPassword,
@@ -265,7 +291,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         //http://pinvoke.net/default.aspx/advapi32.LogonUser
         [DllImport("advapi32.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool LogonUserExExW(
+        public static extern bool LogonUserExExW(
             [MarshalAs(UnmanagedType.LPWStr)] string pszUserName,
             [MarshalAs(UnmanagedType.LPWStr)] string pszDomain,
             [MarshalAs(UnmanagedType.LPWStr)] string pszPassword,
@@ -303,6 +329,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LookupAccountSid(
             string lpSystemName, 
             IntPtr Sid,
@@ -313,11 +340,40 @@ namespace MonkeyWorks.Unmanaged.Libraries
             out Winnt._SID_NAME_USE peUse
         );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool LookupPrivilegeName(string lpSystemName, IntPtr lpLuid, StringBuilder lpName, ref int cchName);
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LookupPrivilegeNameA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpSystemName, 
+            IntPtr lpLuid, 
+            StringBuilder lpName,
+            [MarshalAs(UnmanagedType.U4)] ref uint cchName
+        );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool LookupPrivilegeValue(string lpSystemName, string lpName, ref Winnt._LUID luid);
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public extern static bool LookupPrivilegeNameW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpSystemName,
+            IntPtr lpLuid,
+            [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpName,
+            [MarshalAs(UnmanagedType.U4)] ref uint cchName
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern bool LookupPrivilegeValueA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpSystemName,
+            [MarshalAs(UnmanagedType.LPStr)] string lpName, 
+            ref Winnt._LUID luid
+        );
+
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public extern static bool LookupPrivilegeValueW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpSystemName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpName,
+            ref Winnt._LUID luid
+        );
+
         /*
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern uint LsaEnumerateAccountRights(IntPtr PolicyHandle, ref Ntifs._SID AccountSid, ref ntsecapi._LSA_UNICODE_STRING UserRights, ref long CountOfRights);
@@ -377,6 +433,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetTokenInformation(
             IntPtr TokenHandle,
             Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass,
@@ -385,10 +442,60 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool StartService(IntPtr hService, int dwNumServiceArgs, string[] lpServiceArgVectors);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool StartService(
+            IntPtr hService, 
+            int dwNumServiceArgs, 
+            string[] lpServiceArgVectors
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        private static extern uint RegCloseKey(UIntPtr hKey);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        private static extern uint RegCloseKey(IntPtr hKey);
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern int RegOpenKeyEx(UIntPtr hKey, string subKey, int ulOptions, int samDesired, out UIntPtr hkResult);
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int RegOpenKeyEx(
+            UIntPtr hKey, 
+            string subKey, 
+            int ulOptions, 
+            int samDesired, 
+            out UIntPtr hkResult
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int RegOpenKeyEx(
+            IntPtr hKey,
+            string subKey,
+            int ulOptions,
+            int samDesired,
+            out IntPtr hkResult
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        private static extern uint RegOpenKeyExA(
+            IntPtr hKey,
+            [MarshalAs(UnmanagedType.LPStr)] string subKey,
+            [MarshalAs(UnmanagedType.U4)] uint ulOptions,
+            [MarshalAs(UnmanagedType.U4)] uint samDesired,
+            out IntPtr hkResult
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        private static extern uint RegOpenKeyExW(
+            IntPtr hKey,
+            [MarshalAs(UnmanagedType.LPWStr)] string subKey,
+            [MarshalAs(UnmanagedType.U4)] uint ulOptions,
+            [MarshalAs(UnmanagedType.U4)] uint samDesired,
+            out IntPtr hkResult
+        );
 
         //Pulled from Win32.Registry to remove NuGet dependency
         [Flags]
@@ -404,33 +511,100 @@ namespace MonkeyWorks.Unmanaged.Libraries
             None = -1
         }
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern uint RegQueryValueEx(UIntPtr hKey, string lpValueName, int lpReserved, ref RegistryValueKind lpType, IntPtr lpData, ref int lpcbData);
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint RegQueryValueExA(
+            UIntPtr hKey,
+            [MarshalAs(UnmanagedType.LPStr)] string lpValueName,
+            [MarshalAs(UnmanagedType.I4)] int lpReserved,
+            [MarshalAs(UnmanagedType.I4)] ref RegistryValueKind lpType, 
+            IntPtr lpData,
+            [MarshalAs(UnmanagedType.I4)] ref int lpcbData
+        );
 
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint RegQueryValueExW(
+            IntPtr hKey,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpValueName,
+            [MarshalAs(UnmanagedType.I4)] int lpReserved,
+            [MarshalAs(UnmanagedType.I4)] ref RegistryValueKind lpType,
+            IntPtr lpData,
+            [MarshalAs(UnmanagedType.I4)] ref int lpcbData
+        );
+
+        [Obsolete("Please use RegQueryValueExW or RegQueryValueExA")]
         [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint RegQueryValueEx(
             UIntPtr hKey,
             string lpValueName,
-            int lpReserved,
-            ref int lpType,
+            [MarshalAs(UnmanagedType.I4)] int lpReserved,
+            [MarshalAs(UnmanagedType.I4)] ref int lpType,
             IntPtr lpData,
-            ref int lpcbData
+            [MarshalAs(UnmanagedType.I4)] ref int lpcbData
+        );
+
+        [Obsolete("Please use RegQueryValueExW or RegQueryValueExA")]
+        [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint RegQueryValueEx(
+            IntPtr hKey,
+            string lpValueName,
+            [MarshalAs(UnmanagedType.I4)] int lpReserved,
+            [MarshalAs(UnmanagedType.I4)] ref int lpType,
+            IntPtr lpData,
+            [MarshalAs(UnmanagedType.I4)] ref int lpcbData
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
         public static extern int RegQueryInfoKey(
             UIntPtr hKey,
             StringBuilder lpClass,
-            ref uint lpcchClass,
+            [MarshalAs(UnmanagedType.U4)] ref uint lpcchClass,
             IntPtr lpReserved,
-            out uint lpcSubkey,
-            out uint lpcchMaxSubkeyLen,
-            out uint lpcchMaxClassLen,
-            out uint lpcValues,
-            out uint lpcchMaxValueNameLen,
-            out uint lpcbMaxValueLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcSubkey,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcchMaxSubkeyLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcchMaxClassLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcValues,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcchMaxValueNameLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcbMaxValueLen,
             IntPtr lpSecurityDescriptor,
             IntPtr lpftLastWriteTime
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern int RegQueryInfoKey(
+            IntPtr hKey,
+            StringBuilder lpClass,
+            [MarshalAs(UnmanagedType.U4)] ref uint lpcchClass,
+            IntPtr lpReserved,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcSubkey,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcchMaxSubkeyLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcchMaxClassLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcValues,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcchMaxValueNameLen,
+            [MarshalAs(UnmanagedType.U4)] out uint lpcbMaxValueLen,
+            IntPtr lpSecurityDescriptor,
+            IntPtr lpftLastWriteTime
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        private static extern uint RegSaveKeyA(
+            IntPtr hKey,
+            [MarshalAs(UnmanagedType.LPStr)] string lpFile,
+            IntPtr lpSecurityAttributes
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        private static extern uint RegSaveKeyW(
+            IntPtr hKey,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFile,
+            IntPtr lpSecurityAttributes
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
