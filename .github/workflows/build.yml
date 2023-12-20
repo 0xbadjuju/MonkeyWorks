@@ -27,7 +27,7 @@ jobs:
       run: dotnet pack --configuration Release
       
     - name: Add private GitHub registry to NuGet
-      run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/0xbadjuju/index.json -Username 0xbadjuju
+      run: dotnet nuget add source -n "GPR" https://nuget.pkg.github.com/0xbadjuju/index.json -u 0xbadjuju -p ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push generated package to GitHub registry
       run: dotnet nuget push ./bin/Release/*.nupkg --source "GPR" --api-key ${{ secrets.GITHUB_TOKEN }}
