@@ -33,7 +33,7 @@ jobs:
       run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/0xbadjuju/index.json -Username 0xbadjuju -Password ${{ secrets.GITHUB_TOKEN }}
         
     - name: Push generated package to GitHub registry
-      run: nuget push .\bin\Release\*.nupkg -Source "GPR" -SkipDuplicate
+      run: nuget push ./bin/Release/*.nupkg -Source "GPR" -SkipDuplicate
 
     - name: Publish NuGet
       uses: softprops/action-gh-release@v1
