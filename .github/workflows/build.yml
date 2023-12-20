@@ -25,6 +25,11 @@ jobs:
 
     - name: Pack
       run: dotnet pack --configuration Release
+    
+    - name: Publish NuGet to GitHub Packages
+      run: dotnet nuget push ./bin/Release/*.nupkg --source https://nuget.pkg.github.com/0xbadjuju/index.json
+      env:
+        NUGET_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Publish NuGet
       uses: softprops/action-gh-release@v1
