@@ -170,6 +170,54 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr CreateToolhelp32Snapshot(uint dwFlags, uint th32ProcessID);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint nInBufferSize,
+            IntPtr lpOutBuffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint nOutBufferSize,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint nInBufferSize,
+            IntPtr lpOutBuffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint nOutBufferSize,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint lpBytesReturned,
+            ref MinWinBase._OVERLAPPED lpOverlapped
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool DeviceIoControl(
+            IntPtr hDevice,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint nInBufferSize,
+            IntPtr lpOutBuffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint nOutBufferSize,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint lpBytesReturned,
+            ref System.Threading.NativeOverlapped lpOverlapped
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DisconnectNamedPipe(IntPtr hNamedPipe);
 
