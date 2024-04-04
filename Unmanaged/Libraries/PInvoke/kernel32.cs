@@ -170,6 +170,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr CreateToolhelp32Snapshot(uint dwFlags, uint th32ProcessID);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeviceIoControl(
             IntPtr hDevice,
             [MarshalAs(UnmanagedType.U4)]
@@ -186,6 +187,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeviceIoControl(
             IntPtr hDevice,
             [MarshalAs(UnmanagedType.U4)]
@@ -202,6 +204,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeviceIoControl(
             IntPtr hDevice,
             [MarshalAs(UnmanagedType.U4)]

@@ -430,8 +430,19 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint RtlNtStatusToDosError(
+            [MarshalAs(UnmanagedType.U4)]
             uint Status
         );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint RtlReportSilentProcessExit(
+            IntPtr processHandle, 
+            [MarshalAs(UnmanagedType.U4)]
+            uint exitStatus
+        );
+
     }
 }
