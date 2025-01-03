@@ -53,8 +53,8 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD th32ParentProcessID;
             public LONG pcPriClassBase;
             public DWORD dwFlags;
-            //[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-            public TCHAR szExeFile;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string szExeFile;
         }
 
         [StructLayout(LayoutKind.Sequential)]

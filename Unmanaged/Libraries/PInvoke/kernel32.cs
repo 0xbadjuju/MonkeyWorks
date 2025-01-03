@@ -349,7 +349,21 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsWow64Process(IntPtr hProcess, out bool Wow64Process);
+        public static extern bool IsWow64Process(
+            IntPtr hProcess, 
+            [MarshalAs(UnmanagedType.Bool)]
+            out bool Wow64Process
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWow64Process2(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U2)]
+            ref ushort pProcessMachine,
+            [MarshalAs(UnmanagedType.U2)]
+            ref ushort pNativeMachine
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -385,10 +399,18 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool Process32First(IntPtr hSnapshot, ref TiHelp32.tagPROCESSENTRY32 lppe);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool Process32First(
+            IntPtr hSnapshot, 
+            ref TiHelp32.tagPROCESSENTRY32 lppe
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool Process32Next(IntPtr hSnapshot, ref TiHelp32.tagPROCESSENTRY32 lppe);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool Process32Next(
+            IntPtr hSnapshot, 
+            ref TiHelp32.tagPROCESSENTRY32 lppe
+        );
 
         /*
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -410,7 +432,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool OpenProcessToken(
             IntPtr hProcess,
-            [MarshalAs(UnmanagedType.U8)] ulong dwDesiredAccess, 
+            [MarshalAs(UnmanagedType.U8)] 
+            ulong dwDesiredAccess, 
             out IntPtr hToken
         );
 
@@ -419,6 +442,18 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool OpenThreadToken(IntPtr ThreadHandle, uint DesiredAccess, bool OpenAsSelf, ref IntPtr TokenHandle);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryFullProcessImageNameW(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U4)] 
+            uint dwFlags,
+            [MarshalAs(UnmanagedType.LPWStr)] 
+            ref StringBuilder lpExeName,
+            [MarshalAs(UnmanagedType.U4)] 
+            ref uint dwSize
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
