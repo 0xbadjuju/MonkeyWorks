@@ -380,7 +380,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr LoadLibraryA([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern IntPtr LoadLibraryW([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
+        public static extern IntPtr LoadLibraryW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LocalFree(IntPtr hMem);
