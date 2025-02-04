@@ -374,7 +374,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtQueryInformationProcess(
             IntPtr ProcessHandle,
             [MarshalAs(UnmanagedType.U4)]
-            Winternl.PROCESSINFOCLASS ProcessInformationClass,
+            Winternl._PROCESSINFOCLASS ProcessInformationClass,
             IntPtr ProcessInformation,
             [MarshalAs(UnmanagedType.U4)] 
             uint ProcessInformationLength,

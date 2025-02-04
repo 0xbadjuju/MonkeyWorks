@@ -5,10 +5,10 @@ using System.Text;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    internal class psapi
+    public sealed class psapi
     {
         
-        [DllImport("Psapi.dll", SetLastError = true)]
+        [DllImport("Psapi.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint GetModuleFileNameExW(
             IntPtr hProcess,

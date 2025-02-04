@@ -28,6 +28,44 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct _PROCESS_HANDLE_TABLE_ENTRY_INFO
+        {
+            public IntPtr HandleValue;
+            public UIntPtr HandleCount; //ULONG_PTR
+            public UIntPtr PointerCount; //ULONG_PTR
+            public Winnt.ACCESS_MASK GrantedAccess;
+            public uint ObjectTypeIndex;
+            public uint HandleAttributes;
+            public uint Reserved;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _PROCESS_HANDLE_SNAPSHOT_INFORMATION
+        {
+            private ulong _NumberOfHandles; //ULONG_PTR
+            public ulong Reserved; //ULONG_PTR
+            private IntPtr _Handles;//_PROCESS_HANDLE_TABLE_ENTRY_INFO[] Handles; //[ANYSIZE_ARRAY];
+
+            public ulong NumberOfHandles()
+            {
+                return _NumberOfHandles;
+            }
+
+            public _PROCESS_HANDLE_TABLE_ENTRY_INFO[] Handles()
+            {
+                var handles = new _PROCESS_HANDLE_TABLE_ENTRY_INFO[_NumberOfHandles];
+
+                for (ulong i = 0; i < _NumberOfHandles; i++)
+                {
+                    IntPtr pHandle = new IntPtr(_Handles.ToInt64() + (Marshal.SizeOf(typeof(_PROCESS_HANDLE_TABLE_ENTRY_INFO)) * (uint)i));
+                    handles[i] = (_PROCESS_HANDLE_TABLE_ENTRY_INFO)Marshal.PtrToStructure(pHandle, typeof(_PROCESS_HANDLE_TABLE_ENTRY_INFO));
+                }
+
+                return handles;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct SYSTEM_HANDLE_INFORMATION
         {
             [MarshalAs(UnmanagedType.U8)]
