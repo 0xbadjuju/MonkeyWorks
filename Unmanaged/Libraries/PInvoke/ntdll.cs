@@ -242,6 +242,19 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtQueueApcThreadEx2(
+            IntPtr processHandle,
+            IntPtr UserApcReserveHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            uint QueueUserApcFlags,
+            IntPtr ApcRoutine,
+            IntPtr SystemArg1,
+            IntPtr SystemArg2,
+            IntPtr SystemArg3
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtQueryInformationProcess(
             IntPtr ProcessHandle,
             Winternl._PROCESSINFOCLASS ProcessInformationClass,
@@ -319,6 +332,17 @@ namespace MonkeyWorks.Unmanaged.Libraries
             [MarshalAs(UnmanagedType.U8)]
             ulong Length,
             Winternl._FILE_INFORMATION_CLASS FileInformationClass
+        );
+
+        [DllImport("ntdll.dll", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtSetInformationThread(
+            IntPtr hThread,
+            [MarshalAs(UnmanagedType.U4)]
+            uint threadInfoClass,
+            IntPtr hThreadInfo,
+            [MarshalAs(UnmanagedType.U4)]
+            uint ThreadInformationLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -471,6 +495,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
             ref IntPtr threadHandle,
             Ntddk.CLIENT_ID clientId
         );
+
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern void RtlInitUnicodeString(
+            ref Ntddk._UNICODE_STRING DestinationString,
+            IntPtr SourceString
+        );
+
 
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
