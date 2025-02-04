@@ -213,7 +213,13 @@ namespace MonkeyWorks.Unmanaged.Headers
             WINSTA_ENUMERATE = 0x00000100,
             WINSTA_READSCREEN = 0x00000200,
             WINSTA_ALL_ACCESS = 0x0000037F,
-            EVENT_QUERY_STATE = 0x0001
+            EVENT_QUERY_STATE = 0x0001,
+            WORKER_FACTORY_RELEASE_WORKER =  0x0001,
+            WORKER_FACTORY_WAIT = 0x0002,
+            WORKER_FACTORY_SET_INFORMATION = 0x0004,
+            WORKER_FACTORY_QUERY_INFORMATION = 0x0008,
+            WORKER_FACTORY_READY_WORKER = 0x0010,
+            WORKER_FACTORY_SHUTDOWN = 0x0020
         };
 
         [Flags]
