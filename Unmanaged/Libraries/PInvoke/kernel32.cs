@@ -226,6 +226,20 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateHandle(
+            IntPtr hSourceProcessHandle,
+            IntPtr hSourceHandle,
+            IntPtr hTargetProcessHandle,
+            ref IntPtr lpTargetHandle,
+            Winnt.ACCESS_MASK dwDesiredAccess,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bInheritHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwOptions
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FlushFileBuffers(IntPtr hFile);
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -253,6 +267,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
             ref ulong lpFileSize
         );
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetHandleInformation(
+            IntPtr  hObject,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint lpdwFlags
+        );
+
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
 
@@ -271,7 +293,19 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)]string procName);
+        public static extern IntPtr GetProcAddress(
+            IntPtr hModule, 
+            [MarshalAs(UnmanagedType.LPStr)]
+            string procName
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProcessHandleCount(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint pdwHandleCount
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]

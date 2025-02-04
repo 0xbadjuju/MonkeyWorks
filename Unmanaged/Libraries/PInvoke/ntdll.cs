@@ -244,9 +244,11 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtQueryInformationProcess(
             IntPtr ProcessHandle,
-            Winternl.PROCESSINFOCLASS ProcessInformationClass,
+            Winternl._PROCESSINFOCLASS ProcessInformationClass,
             IntPtr ProcessInformation,
+            [MarshalAs(UnmanagedType.U4)]
             uint ProcessInformationLength,
+            [MarshalAs(UnmanagedType.U4)]
             ref uint ReturnLength
         );
 
@@ -256,7 +258,34 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr TokenIntPtr,
             Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass,
             IntPtr TokenInformation,
+            [MarshalAs(UnmanagedType.U8)]
             ulong TokenInformationLength,
+            [MarshalAs(UnmanagedType.U8)]
+            ref ulong ReturnLength
+        );
+
+        
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtQueryInformationWorkerFactory(
+            IntPtr WorkerFactoryHandle,
+            Ntexapi._WORKERFACTORYINFOCLASS WorkerFactoryInformationClass,
+            IntPtr WorkerFactoryInformation,
+            [MarshalAs(UnmanagedType.U4)]
+            uint WorkerFactoryInformationLength,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint ReturnLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtQueryObject(
+            IntPtr Handle,
+            Winternl._OBJECT_INFORMATION_CLASS ObjectInformationClass,
+            IntPtr ObjectInformation,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong ObjectInformationLength,
+            [MarshalAs(UnmanagedType.U8)]
             ref ulong ReturnLength
         );
 
@@ -302,19 +331,33 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtSetInformationProcess(
             IntPtr ProcessHandle,
             ProcessThreadsApi._PROCESS_INFORMATION_CLASS ProcessInformationClass,
             ref uint ProcessInformation,
+            [MarshalAs(UnmanagedType.U4)]
             uint ProcessInformationLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtSetInformationProcess(
             IntPtr ProcessHandle,
             ProcessThreadsApi._PROCESS_INFORMATION_CLASS ProcessInformationClass,
             ref Ntpsapi._PROCESS_ACCESS_TOKEN ProcessInformation,
+            [MarshalAs(UnmanagedType.U4)]
             uint ProcessInformationLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtSetInformationWorkerFactory(
+            IntPtr WorkerFactoryHandle,
+            Ntexapi._SET_WORKERFACTORYINFOCLASS WorkerFactoryInformationClass,
+            IntPtr WorkerFactoryInformation,
+            [MarshalAs(UnmanagedType.U4)]
+            uint WorkerFactoryInformationLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true, EntryPoint = "NtSetContextThread")]

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    internal class Psapi
+    public class Psapi
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _MODULEINFO
