@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Win32.SafeHandles;
 
 using MonkeyWorks.Unmanaged.Headers;
-using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
@@ -54,6 +53,20 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateFileW(
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpFileName,
+            Winnt.ACCESS_MASK dwDesiredAccess,
+            System.IO.FileShare dwShareMode,
+            IntPtr lpSecurityAttributes,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwCreationDisposition,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwFlagsAndAttributes,
+            IntPtr hTemplateFile
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateFileMappingW(
             IntPtr hFile,
             Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes,
@@ -67,19 +80,24 @@ namespace MonkeyWorks.Unmanaged.Libraries
             string lpFileName
         );
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern IntPtr CreateFileW(
+        [DllImport("kernel32.dll", SetLastError = true, CharSet=CharSet.Unicode)]
+        public static extern IntPtr CreateFileTransactedW(
             [MarshalAs(UnmanagedType.LPWStr)]
             string lpFileName,
             Winnt.ACCESS_MASK dwDesiredAccess,
             System.IO.FileShare dwShareMode,
-            IntPtr lpSecurityAttributes,
+            ref Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes,
             [MarshalAs(UnmanagedType.U4)]
             uint dwCreationDisposition,
             [MarshalAs(UnmanagedType.U4)]
             uint dwFlagsAndAttributes,
-            IntPtr hTemplateFile
+            IntPtr hTemplateFile,
+            IntPtr hTransaction,
+            //ref ushort
+            IntPtr pusMiniVersion,
+            IntPtr lpExtendedParameter
         );
+
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool CreateProcess(
@@ -150,7 +168,18 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr CreateRemoteThread(IntPtr hHandle, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, ref uint lpThreadId);
+        public static extern IntPtr CreateRemoteThread(
+            IntPtr hHandle, 
+            IntPtr lpThreadAttributes, 
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwStackSize, 
+            IntPtr lpStartAddress, 
+            IntPtr lpParameter, 
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwCreationFlags, 
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint lpThreadId
+        );
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -164,10 +193,25 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, ref uint lpThreadId);
+        public static extern IntPtr CreateThread(
+            IntPtr lpThreadAttributes,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwStackSize, 
+            IntPtr lpStartAddress, 
+            IntPtr lpParameter, 
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwCreationFlags,
+            [MarshalAs(UnmanagedType.U4)] 
+            ref uint lpThreadId
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr CreateToolhelp32Snapshot(uint dwFlags, uint th32ProcessID);
+        public static extern IntPtr CreateToolhelp32Snapshot(
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwFlags, 
+            [MarshalAs(UnmanagedType.U4)]
+            uint th32ProcessID
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

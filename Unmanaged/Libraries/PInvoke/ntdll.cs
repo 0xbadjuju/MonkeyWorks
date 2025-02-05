@@ -184,6 +184,27 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtMapViewOfSection(
+            IntPtr SectionHandle,
+            IntPtr ProcessHandle,
+            ref IntPtr BaseAddress,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong  ZeroBits,
+            [MarshalAs(UnmanagedType.U4)]
+            uint CommitSize,
+            ref Winnt.LARGE_INTEGER SectionOffset,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint ViewSize,
+            [MarshalAs(UnmanagedType.U4)]
+            uint InheritDisposition,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong AllocationType,
+            [MarshalAs(UnmanagedType.U4)]
+            Winnt.MEMORY_PROTECTION_CONSTANTS Win32Protect
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtOpenEvent(
             out IntPtr EventHandle,
             [MarshalAs(UnmanagedType.U4)]
@@ -321,6 +342,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr Buffer,
             ulong NumberOfBytesToRead,
             ref ulong NumberOfBytesReaded
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtRollbackTransaction(
+            IntPtr TransactionHandle, 
+            [MarshalAs(UnmanagedType.Bool)]
+            bool something
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -496,13 +525,11 @@ namespace MonkeyWorks.Unmanaged.Libraries
             Ntddk.CLIENT_ID clientId
         );
 
-
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern void RtlInitUnicodeString(
             ref Ntddk._UNICODE_STRING DestinationString,
             IntPtr SourceString
         );
-
 
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
