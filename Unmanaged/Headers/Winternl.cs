@@ -1069,6 +1069,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             SystemEnclaveLaunchControlInformation = 0xCB
         }
 
+        /*
         [StructLayout(LayoutKind.Explicit, Size = 0x2000)]
         public struct _TEB
         {
@@ -1204,6 +1205,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             [FieldOffset(0x2988)]
             public uint[] BooleanSpare;//[4];
         }
-
+        */
     }
 }
