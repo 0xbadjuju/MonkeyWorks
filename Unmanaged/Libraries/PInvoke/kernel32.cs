@@ -322,6 +322,12 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
 
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern IntPtr GetModuleHandleA(string lpModuleName);
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr GetModuleHandleW(string lpModuleName);
+
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern void GetNativeSystemInfo(out Winbase._SYSTEM_INFO lpSystemInfo);
 
@@ -404,6 +410,50 @@ namespace MonkeyWorks.Unmanaged.Libraries
             ref FILETIME lpExitTime,
             ref FILETIME lpKernelTime,
             ref FILETIME lpUserTime
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalAddAtom(
+            string lpString
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalAddAtomA(
+            string lpString
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalAddAtomW(
+            string lpString
+        );
+
+        //Niche case where using an IntPtr was infinitly easier
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalAddAtom(
+            IntPtr lpString
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalAddAtomA(
+            IntPtr lpString
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalAddAtomW(
+            IntPtr lpString
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public static extern ushort GlobalDeleteAtom(
+            [MarshalAs(UnmanagedType.U2)]
+            ushort nAtom
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]

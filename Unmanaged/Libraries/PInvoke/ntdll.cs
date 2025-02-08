@@ -263,6 +263,16 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtQueueApcThread(
+            IntPtr processHandle,
+            IntPtr apcRoutine,
+            IntPtr param1,
+            IntPtr param2,
+            IntPtr param3
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtQueueApcThreadEx2(
             IntPtr processHandle,
             IntPtr UserApcReserveHandle,
