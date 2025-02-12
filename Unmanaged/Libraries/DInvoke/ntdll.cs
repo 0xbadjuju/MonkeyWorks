@@ -536,6 +536,12 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void RtlInitUnicodeString(
+            ref Ntddk._UNICODE_STRING DestinationString,
+            IntPtr SourceString
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlNtStatusToDosError(
             [MarshalAs(UnmanagedType.U4)] uint Status
