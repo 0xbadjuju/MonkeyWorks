@@ -317,6 +317,19 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtQueueApcThreadEx2(
+            IntPtr processHandle,
+            IntPtr UserApcReserveHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            uint QueueUserApcFlags,
+            IntPtr ApcRoutine,
+            IntPtr SystemArg1,
+            IntPtr SystemArg2,
+            IntPtr SystemArg3
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtQueryVirtualMemory(
             IntPtr ProcessHandle,
             IntPtr BaseAddress,

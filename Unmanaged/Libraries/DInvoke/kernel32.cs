@@ -243,6 +243,19 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public delegate ushort GlobalAddAtomW(
+            IntPtr lpString
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U2)]
+        public delegate ushort GlobalDeleteAtom(
+            [MarshalAs(UnmanagedType.U2)]
+            ushort nAtom
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate uint GlobalSize(IntPtr hMem);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
