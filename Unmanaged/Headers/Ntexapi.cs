@@ -1,13 +1,39 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+/// https://github.com/lucasg/processhacker2/blob/master/phnt/include/ntexapi.h
+
 namespace MonkeyWorks.Unmanaged.Headers
 {
     public sealed class Ntexapi
     {
-        /// <summary>
-        /// https://github.com/lucasg/processhacker2/blob/master/phnt/include/ntexapi.h
-        /// </summary>
+        
+        [Flags]
+        public enum _SET_WORKERFACTORYINFOCLASS
+        {
+            WorkerFactoryTimeout = 0,
+            WorkerFactoryRetryTimeout = 1,
+            WorkerFactoryIdleTimeout = 2,
+            WorkerFactoryBindingCount = 3,
+            WorkerFactoryThreadMinimum = 4,
+            WorkerFactoryThreadMaximum = 5,
+            WorkerFactoryPaused = 6,
+            WorkerFactoryAdjustThreadGoal = 8,
+            WorkerFactoryCallbackType = 9,
+            WorkerFactoryStackInformation = 10,
+            WorkerFactoryThreadBasePriority = 11,
+            WorkerFactoryTimeoutWaiters = 12,
+            WorkerFactoryFlags = 13,
+            WorkerFactoryThreadSoftMaximum = 14,
+            WorkerFactoryMaxInfoClass = 15 /* Not implemented */
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public class WnfTypeId
+        {
+            public Guid TypeId;
+        }
+        
         [Flags]
         public enum _WORKERFACTORYINFOCLASS
         {
@@ -27,26 +53,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             WorkerFactoryFlags,
             WorkerFactoryThreadSoftMaximum,
             MaxWorkerFactoryInfoClass
-        }
-
-        [Flags]
-        public enum _SET_WORKERFACTORYINFOCLASS
-        {
-            WorkerFactoryTimeout = 0,
-            WorkerFactoryRetryTimeout = 1,
-            WorkerFactoryIdleTimeout = 2,
-            WorkerFactoryBindingCount = 3,
-            WorkerFactoryThreadMinimum = 4,
-            WorkerFactoryThreadMaximum = 5,
-            WorkerFactoryPaused = 6,
-            WorkerFactoryAdjustThreadGoal = 8,
-            WorkerFactoryCallbackType = 9,
-            WorkerFactoryStackInformation = 10,
-            WorkerFactoryThreadBasePriority = 11,
-            WorkerFactoryTimeoutWaiters = 12,
-            WorkerFactoryFlags = 13,
-            WorkerFactoryThreadSoftMaximum = 14,
-            WorkerFactoryMaxInfoClass = 15 /* Not implemented */
         }
 
         [StructLayout(LayoutKind.Sequential)]
