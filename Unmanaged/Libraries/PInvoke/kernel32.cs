@@ -323,10 +323,16 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr GetModuleHandle(string lpModuleName);
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
-        public static extern IntPtr GetModuleHandleA(string lpModuleName);
+        public static extern IntPtr GetModuleHandleA(
+            [MarshalAs(UnmanagedType.LPStr)]
+            string lpModuleName
+        );
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetModuleHandleW(string lpModuleName);
+        public static extern IntPtr GetModuleHandleW(
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpModuleName
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern void GetNativeSystemInfo(out Winbase._SYSTEM_INFO lpSystemInfo);

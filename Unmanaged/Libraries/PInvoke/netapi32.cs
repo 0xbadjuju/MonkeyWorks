@@ -17,6 +17,17 @@ namespace MonkeyWorks.Unmanaged.Libraries
 {
     public sealed class netapi32
     {
+        [DllImport("netapi32.dll", SetLastError = true)]
+        public static extern uint NetApiBufferFree(IntPtr Buffer);
+
+        [DllImport("netapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern uint NetGetJoinInformation(
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpServer,
+            out IntPtr lpNameBuffer,
+            out LmJoin.NetJoinStatus BufferType
+        );
+
         [DllImport("netapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern uint NetUserGetLocalGroups(
             [MarshalAs(UnmanagedType.LPWStr)] string servername,
