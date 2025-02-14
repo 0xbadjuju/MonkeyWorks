@@ -212,9 +212,23 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
-        public delegate uint NtGetContextThread(
+        public delegate uint NtGetContextThread64(
             IntPtr ProcessIntPtr,
             ref Winnt.CONTEXT64 lpContext
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtGetContextThread32(
+            IntPtr ProcessIntPtr,
+            ref Winnt.CONTEXT lpContext
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtGetContextThread(
+            IntPtr ProcessIntPtr,
+            IntPtr lpContext
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
