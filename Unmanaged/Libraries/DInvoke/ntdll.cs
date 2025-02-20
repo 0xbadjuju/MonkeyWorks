@@ -403,6 +403,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtSetInformationWorkerFactory(
+            IntPtr WorkerFactoryHandle,
+            Ntexapi._SET_WORKERFACTORYINFOCLASS WorkerFactoryInformationClass,
+            IntPtr WorkerFactoryInformation,
+            uint WorkerFactoryInformationLength
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtPrivilegeCheck(
             IntPtr TokenIntPtr,
             ref Winnt._PRIVILEGE_SET RequiredPrivileges,
@@ -444,6 +453,18 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr TokenInformation,
             ulong TokenInformationLength,
             ref ulong ReturnLength
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtQueryInformationWorkerFactory(
+            IntPtr WorkerFactoryHandle,
+            Ntexapi._WORKERFACTORYINFOCLASS WorkerFactoryInformationClass,
+            IntPtr WorkerFactoryInformation,
+            [MarshalAs(UnmanagedType.U4)]
+            uint WorkerFactoryInformationLength,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint ReturnLength
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
