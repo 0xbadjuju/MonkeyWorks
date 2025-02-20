@@ -82,6 +82,10 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr GetClipboardData(uint uFormat);
 
         [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        static extern int GetDlgCtrlID(IntPtr hwndCtl);
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll", SetLastError = true)]
