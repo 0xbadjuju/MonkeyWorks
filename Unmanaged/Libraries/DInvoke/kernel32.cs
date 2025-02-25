@@ -166,6 +166,14 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool GetProcessHandleCount(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint pdwHandleCount
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool GetFileSizeEx(
             IntPtr hFile,
             [MarshalAs(UnmanagedType.U8)]
