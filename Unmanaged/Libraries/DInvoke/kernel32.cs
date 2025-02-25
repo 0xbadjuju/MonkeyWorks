@@ -127,6 +127,20 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate bool DisconnectNamedPipe(IntPtr hNamedPipe);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool DuplicateHandle(
+            IntPtr hSourceProcessHandle,
+            IntPtr hSourceHandle,
+            IntPtr hTargetProcessHandle,
+            ref IntPtr lpTargetHandle,
+            Winnt.ACCESS_MASK dwDesiredAccess,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bInheritHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwOptions
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate bool FlushFileBuffers(IntPtr hFile);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -163,6 +177,14 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate bool GetFileInformationByHandle(
             IntPtr hFile,
             ref Fileapi._BY_HANDLE_FILE_INFORMATION lpFileInformation
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool GetHandleInformation(
+            IntPtr  hObject,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint lpdwFlags
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
