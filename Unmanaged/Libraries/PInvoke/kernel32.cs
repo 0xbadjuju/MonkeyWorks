@@ -631,7 +631,37 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern int ResumeThread(IntPtr hThread);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern uint SearchPath(string lpPath, string lpFileName, string lpExtension, uint nBufferLength, StringBuilder lpBuffer, ref IntPtr lpFilePart);
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPath(
+            string lpPath, 
+            string lpFileName, 
+            string lpExtension, 
+            uint nBufferLength, 
+            StringBuilder lpBuffer, 
+            ref IntPtr lpFilePart
+        );
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPathA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpPath, 
+            [MarshalAs(UnmanagedType.LPStr)] string lpFileName, 
+            [MarshalAs(UnmanagedType.LPStr)] string lpExtension, 
+            [MarshalAs(UnmanagedType.U4)] uint nBufferLength, 
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpBuffer,
+            out IntPtr lpFilePart
+        );
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPathW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpPath,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpExtension,
+            [MarshalAs(UnmanagedType.U4)] uint nBufferLength,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpBuffer,
+            out IntPtr lpFilePart
+        );
 
         public delegate bool HandlerRoutine(Wincon.CtrlType CtrlType);
 
