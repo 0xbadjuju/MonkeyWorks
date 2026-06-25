@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public sealed class Rpcdced
+    public sealed class Rpcdcep
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _RPC_VERSION
