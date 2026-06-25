@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public static class Rpcndr
+    public sealed class Rpcndr
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _COMM_FAULT_OFFSETS
@@ -37,7 +37,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public IntPtr ProxyServerInfo;
             public IntPtr pExprInfo;
 
-            public MIDL_STUB_DESC(IntPtr pFormatTypesPtr, IntPtr rpcInterfaceInformationPtr, IntPtr commFaultOffsetsPtr, IntPtr pfnAllocatePtr, IntPtr pfnFreePtr)
+            public _MIDL_STUB_DESC(IntPtr pFormatTypesPtr, IntPtr rpcInterfaceInformationPtr, IntPtr commFaultOffsetsPtr, IntPtr pfnAllocatePtr, IntPtr pfnFreePtr)
             {
                 RpcInterfaceInformation = rpcInterfaceInformationPtr;
                 pfnAllocate = pfnAllocatePtr;

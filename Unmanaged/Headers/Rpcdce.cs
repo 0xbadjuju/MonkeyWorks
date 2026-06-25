@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public static sealed class Rpcdce
+    public sealed class Rpcdce
     {
         public static readonly Guid EfsInterfaceId = new Guid("df1941c5-fe89-4e79-bf10-463657acf44d");
         public static readonly Guid DceTransferSyntax = new Guid("8A885D04-1CEB-11C9-9FE8-08002B104860");
@@ -101,7 +101,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             RPC_C_AUTHN_LEVEL_PKT_INTEGRITY = 5,
 
             [Description("Same as RPC_AUTHN_LEVEL_PKT_INTEGRITY but also ensures that the data transferred can only be seen unencrypted by the client and server.")]
-            RPC_C_AUTHN_LEVEL_PKT_PRIVACY = 6;
+            RPC_C_AUTHN_LEVEL_PKT_PRIVACY = 6,
 
             [Description("Use the Microsoft Negotiate SSP. This SSP negotiates between the use of the NTLM and Kerberos protocol Security Support Providers (SSP).")]
             RPC_C_AUTHN_GSS_NEGOTIATE = 9,
