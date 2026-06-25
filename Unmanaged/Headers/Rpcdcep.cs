@@ -27,7 +27,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct _RPC_CLIENT_INTERFACE
+        public struct _RPC_CLIENT_INTERFACE
         {
             public uint Length;
             public _RPC_SYNTAX_IDENTIFIER InterfaceId;

@@ -54,8 +54,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr Binding,
             [MarshalAs(UnmanagedType.LPWStr)] 
             string AuthServer,
-            uint AuthLevel,
-            uint AuthService,
+            Rpcdce.AUTHENTICATION_SERVICE_CONSTANTS AuthLevel,
+            Rpcdce.AUTHENTICATION_SERVICE_CONSTANTS AuthService,
             int AuthIdentity,
             uint AuthzNone
         );

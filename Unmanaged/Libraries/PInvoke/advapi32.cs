@@ -144,7 +144,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool CreateProcessAsUser(
+        public static extern bool CreateProcessAsUser(
             IntPtr hToken,
             string lpApplicationName,
             string lpCommandLine,
