@@ -24,18 +24,26 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         ////////////////////////////////////////////////////////////////////////////////
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool CloseHandle(IntPtr hProcess);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseHandle(
+            IntPtr hProcess
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool CloseHandle(SafeFileHandle hProcess);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseHandle(
+            SafeFileHandle hProcess
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ConnectNamedPipe(
             IntPtr hNamedPipe,
             MinWinBase._OVERLAPPED lpOverlapped
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ConnectNamedPipe(
             IntPtr hNamedPipe,
             IntPtr lpOverlapped
@@ -113,7 +121,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
             out Winbase._PROCESS_INFORMATION lpProcessInformation
         );
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
         public static extern IntPtr CreateNamedPipeA(
             string lpName,
             Winbase.OPEN_MODE dwOpenMode,
@@ -125,8 +133,34 @@ namespace MonkeyWorks.Unmanaged.Libraries
             Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes
         );
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
         public static extern IntPtr CreateNamedPipeA(
+            string lpName,
+            Winbase.OPEN_MODE dwOpenMode,
+            Winbase.PIPE_MODE dwPipeMode,
+            uint nMaxInstances,
+            uint nOutBufferSize,
+            uint nInBufferSize,
+            uint nDefaultTimeOut,
+            IntPtr lpSecurityAttributes
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateNamedPipeW(
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpName,
+            Winbase.OPEN_MODE dwOpenMode,
+            Winbase.PIPE_MODE dwPipeMode,
+            uint nMaxInstances,
+            uint nOutBufferSize,
+            uint nInBufferSize,
+            uint nDefaultTimeOut,
+            Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateNamedPipeW(
+            [MarshalAs(UnmanagedType.LPWStr)]
             string lpName,
             Winbase.OPEN_MODE dwOpenMode,
             Winbase.PIPE_MODE dwPipeMode,
@@ -576,9 +610,6 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr OpenThread(ProcessThreadsApi.ThreadSecurityRights dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool OpenThreadToken(IntPtr ThreadHandle, uint DesiredAccess, bool OpenAsSelf, ref IntPtr TokenHandle);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryFullProcessImageNameW(
             IntPtr hProcess,
@@ -631,7 +662,37 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern int ResumeThread(IntPtr hThread);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern uint SearchPath(string lpPath, string lpFileName, string lpExtension, uint nBufferLength, StringBuilder lpBuffer, ref IntPtr lpFilePart);
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPath(
+            string lpPath, 
+            string lpFileName, 
+            string lpExtension, 
+            uint nBufferLength, 
+            StringBuilder lpBuffer, 
+            ref IntPtr lpFilePart
+        );
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPathA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpPath, 
+            [MarshalAs(UnmanagedType.LPStr)] string lpFileName, 
+            [MarshalAs(UnmanagedType.LPStr)] string lpExtension, 
+            [MarshalAs(UnmanagedType.U4)] uint nBufferLength, 
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpBuffer,
+            out IntPtr lpFilePart
+        );
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint SearchPathW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpPath,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpExtension,
+            [MarshalAs(UnmanagedType.U4)] uint nBufferLength,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpBuffer,
+            out IntPtr lpFilePart
+        );
 
         public delegate bool HandlerRoutine(Wincon.CtrlType CtrlType);
 

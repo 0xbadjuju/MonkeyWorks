@@ -347,6 +347,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool OpenThreadToken(
+            IntPtr ThreadHandle, 
+            uint DesiredAccess, 
+            bool OpenAsSelf, 
+            ref IntPtr TokenHandle
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate bool PrivilegeCheck(
             IntPtr ClientToken, 

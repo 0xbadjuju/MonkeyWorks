@@ -111,10 +111,52 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool CreateProcessAsUser(IntPtr hToken, IntPtr lpApplicationName, IntPtr lpCommandLine, ref Winbase._SECURITY_ATTRIBUTES lpProcessAttributes, ref Winbase._SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, Winbase.CREATION_FLAGS dwCreationFlags, IntPtr lpEnvironment, IntPtr lpCurrentDirectory, ref Winbase._STARTUPINFO lpStartupInfo, out Winbase._PROCESS_INFORMATION lpProcessInfo);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateProcessAsUser(
+            IntPtr hToken, 
+            IntPtr lpApplicationName, 
+            IntPtr lpCommandLine, 
+            ref Winbase._SECURITY_ATTRIBUTES lpProcessAttributes, 
+            ref Winbase._SECURITY_ATTRIBUTES lpThreadAttributes, 
+            bool bInheritHandles, 
+            Winbase.CREATION_FLAGS dwCreationFlags, 
+            IntPtr lpEnvironment, 
+            IntPtr lpCurrentDirectory, 
+            ref Winbase._STARTUPINFO lpStartupInfo, 
+            out Winbase._PROCESS_INFORMATION lpProcessInfo
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool CreateProcessAsUserW(IntPtr hToken, IntPtr lpApplicationName, IntPtr lpCommandLine, IntPtr lpProcessAttributes, IntPtr lpThreadAttributes, bool bInheritHandles, Winbase.CREATION_FLAGS dwCreationFlags, IntPtr lpEnvironment, IntPtr lpCurrentDirectory, ref Winbase._STARTUPINFO lpStartupInfo, out Winbase._PROCESS_INFORMATION lpProcessInfo);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateProcessAsUserW(
+            IntPtr hToken, 
+            IntPtr lpApplicationName, 
+            IntPtr lpCommandLine, 
+            IntPtr lpProcessAttributes, 
+            IntPtr lpThreadAttributes, 
+            bool bInheritHandles, 
+            Winbase.CREATION_FLAGS dwCreationFlags, 
+            IntPtr lpEnvironment, 
+            IntPtr lpCurrentDirectory, 
+            ref Winbase._STARTUPINFO lpStartupInfo, 
+            out Winbase._PROCESS_INFORMATION lpProcessInfo
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CreateProcessAsUser(
+            IntPtr hToken,
+            string lpApplicationName,
+            string lpCommandLine,
+            IntPtr lpProcessAttributes,
+            IntPtr lpThreadAttributes,
+            bool bInheritHandles,
+            uint dwCreationFlags,
+            IntPtr lpEnvironment,
+            string lpCurrentDirectory,
+            ref Winbase._STARTUPINFO lpStartupInfo,
+            out Winbase._PROCESS_INFORMATION lpProcessInformation
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool CreateProcessWithTokenW(IntPtr hToken, LOGON_FLAGS dwLogonFlags, IntPtr lpApplicationName, IntPtr lpCommandLine, Winbase.CREATION_FLAGS dwCreationFlags, IntPtr lpEnvironment, IntPtr lpCurrentDirectory, ref Winbase._STARTUPINFO lpStartupInfo, out Winbase._PROCESS_INFORMATION lpProcessInfo);
@@ -186,16 +228,38 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern bool DeleteService(IntPtr hService);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool DuplicateTokenEx(IntPtr hExistingToken, uint dwDesiredAccess, IntPtr lpTokenAttributes, Winnt._SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, Winnt._TOKEN_TYPE TokenType, out IntPtr phNewToken);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateTokenEx(
+            IntPtr hExistingToken,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwDesiredAccess, 
+            IntPtr lpTokenAttributes, 
+            Winnt._SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, 
+            Winnt._TOKEN_TYPE TokenType, 
+            out IntPtr phNewToken
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool DuplicateTokenEx(IntPtr hExistingToken, uint dwDesiredAccess, ref Winbase._SECURITY_ATTRIBUTES lpTokenAttributes, Winnt._SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, Winnt._TOKEN_TYPE TokenType, out IntPtr phNewToken);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateTokenEx(
+            IntPtr hExistingToken, 
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwDesiredAccess, 
+            [MarshalAs(UnmanagedType.LPStruct)]
+            ref Winbase._SECURITY_ATTRIBUTES lpTokenAttributes, 
+            Winnt._SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, 
+            Winnt._TOKEN_TYPE TokenType, 
+            out IntPtr phNewToken
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool ImpersonateLoggedOnUser(IntPtr hToken);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool ImpersonateNamedPipeClient(IntPtr hNamedPipe);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ImpersonateNamedPipeClient(
+            IntPtr hNamedPipe
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool ImpersonateSelf(Winnt._SECURITY_IMPERSONATION_LEVEL ImpersonationLevel);
@@ -373,6 +437,17 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr OpenService(IntPtr hSCManager, string lpServiceName, Winsvc.dwDesiredAccess dwDesiredAccess);
 
         [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool OpenThreadToken(
+            IntPtr ThreadHandle, 
+            [MarshalAs(UnmanagedType.U4)] 
+            uint DesiredAccess, 
+            [MarshalAs(UnmanagedType.Bool)] 
+            bool OpenAsSelf, 
+            out IntPtr TokenHandle
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool PrivilegeCheck(IntPtr ClientToken, Winnt._PRIVILEGE_SET RequiredPrivileges, IntPtr pfResult);
 
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -466,6 +541,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool RevertToSelf();
     }
 } 
