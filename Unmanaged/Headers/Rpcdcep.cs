@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public static sealed class Rpcdced
+    public sealed class Rpcdced
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _RPC_VERSION
@@ -49,7 +49,7 @@ namespace MonkeyWorks.Unmanaged.Headers
                 };
                 TransferSyntax = new _RPC_SYNTAX_IDENTIFIER
                 {
-                    SyntaxGUID = DceTransferSyntax,
+                    SyntaxGUID = Rpcdce.DceTransferSyntax,
                     SyntaxVersion = new _RPC_VERSION(2, 0)
                 };
                 DispatchTable = IntPtr.Zero;
