@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    public sealed class rpcrt4
+    public static class rpcrt4
     {
         [DllImport("rpcrt4.dll", EntryPoint = "NdrClientCall2", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr EfsRpcOpenFileRaw(
@@ -62,7 +62,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr stub, IntPtr format, IntPtr hBinding, IntPtr fileName, IntPtr oldEfsStreamBlob,
             IntPtr newEfsStreamBlob, IntPtr newEfsSignature);
 
-        internal static class X86
+        public static class X86
         {
             public static IntPtr EfsRpcOpenFileRaw(
                 IntPtr stub, IntPtr format, IntPtr hBinding, IntPtr hContext, IntPtr fileName, IntPtr flags) =>
